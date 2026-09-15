@@ -102,3 +102,18 @@ library_system/
 | `/admin/books/delete/<int:book_id>` | GET | Remove a book |
 | `/admin/issue` | GET, POST | Issue a book to a member |
 | `/admin/return/<int:record_id>` | GET | Mark a book as returned, compute fine |
+
+
+## Screenshots
+
+### Login Page
+![Login Page](screenshots/login.png)
+
+### Book Catalog
+![Catalog Page](screenshots/catalog.png)
+
+### Admin Dashboard
+![Admin Dashboard](screenshots/admin_dashboard.png)
+
+### Member Dashboard
+![Register](screenshots/register.png)
