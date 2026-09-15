@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+</head>
+<body>
+    {% extends "base.html" %}
+{% block title %}My Dashboard{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h2>My Dashboard</h2>
+</div>
+
+{% if total_fine_due > 0 %}
+<div class="alert">
+    You currently owe a total fine of <b>Rs. {{ total_fine_due }}</b> on overdue books.
+</div>
+{% endif %}
+
+<div class="page-subheading">Currently Borrowed Books</div>
+
+{% if records %}
+<div class="table-wrapper">
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Issue Date</th>
+                <th>Due Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in records %}
+            <tr>
+                <td>{{ r.book.title if r.book else 'Unknown' }}</td>
+                <td>{{ r.book.author if r.book else '-' }}</td>
+                <td>{{ r.issue_date }}</td>
+                <td>{{ r.due_date }}</td>
+                <td>
+                    {% if r.is_overdue %}
+                        <span class="badge badge-error">Overdue</span>
+                    {% else %}
+                        <span class="badge badge-success">On time</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="empty-state">You have no books borrowed right now.</div>
+{% endif %}
+
+<div class="cta-row">
+    <a href="{{ url_for('catalog') }}" >Browse Catalog</a>
+</div>
+{% endblock %}
+</body>
+</html>

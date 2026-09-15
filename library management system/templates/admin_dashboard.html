@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin-Dashboard</title>
+</head>
+<body>
+    {% extends "base.html" %}
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h2>Admin Dashboard</h2>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-number">{{ total_books }}</div>
+        <div class="stat-label">Total Books</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">{{ total_members }}</div>
+        <div class="stat-label">Total Members</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">{{ issued_count }}</div>
+        <div class="stat-label">Books Currently Issued</div>
+    </div>
+    <div class="stat-card-warning">
+        <div class="stat-number">{{ overdue_records|length }}</div>
+        <div class="stat-label">Overdue Books</div>
+    </div>
+</div>
+
+<div class="page-subheading">Overdue Books</div>
+
+{% if overdue_records %}
+<div class="table-wrapper">
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Book</th>
+                <th>Member</th>
+                <th>Due Date</th>
+                <th>Days Late</th>
+                <th>Fine (Rs.)</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in overdue_records %}
+            <tr>
+                <td>{{ r.book.title if r.book else 'Unknown' }}</td>
+                <td>{{ r.username }}</td>
+                <td>{{ r.due_date }}</td>
+                <td>{{ r.days_late }}</td>
+                <td>{{ r.days_late * 5 }}</td>
+                <td><a href="{{ url_for('return_book', record_id=r.record_id) }}" >Mark Returned</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="empty-state">No overdue books right now. Nicely kept library!</div>
+{% endif %}
+
+<div class="cta-row">
+    <a href="{{ url_for('issue_book') }}" >Issue a Book</a>
+    <a href="{{ url_for('add_book') }}" >Add a Book</a>
+    <a href="{{ url_for('catalog') }}" >View Catalog</a>
+</div>
+{% endblock %}
+</body>
+</html>

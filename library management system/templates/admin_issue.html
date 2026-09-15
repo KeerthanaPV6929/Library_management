@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+</head>
+<body>
+    {% extends "base.html" %}
+{% block title %}Issue Book{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Issue a Book</h2>
+
+    {% if not members %}
+        <div class="empty-state">No members have registered yet. A member must register before you can issue a book to them.</div>
+    {% else %}
+    <form method="POST">
+        <div class="form-group">
+            <label for="book_id">Book</label>
+            <select id="book_id" name="book_id" required>
+                {% for book in books %}
+                    <option value="{{ book.id }}" {% if book.available_copies < 1 %}disabled{% endif %}>
+                        {{ book.title }} ({{ book.available_copies }} available)
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="username">Member</label>
+            <select id="username" name="username" required>
+                {% for uname, info in members.items() %}
+                    <option value="{{ uname }}">{{ info.name }} ({{ uname }})</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit">Issue Book</button>
+        <a href="{{ url_for('admin_dashboard') }}">Cancel</a>
+    </form>
+    {% endif %}
+</div>
+{% endblock %}
+</body>
+</html>

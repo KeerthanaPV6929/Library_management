@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Books</title>
+</head>
+<body>
+    {% extends "base.html" %}
+{% block title %}Edit Book{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Edit Book</h2>
+
+    <form method="POST">
+       <input type="text" name="title" placeholder="Title" value="{{ book.title }}" required>
+        <input type="text" name="author" placeholder="Author" value="{{ book.author }}" required>
+        <input type="text" name="category" placeholder="Category" value="{{ book.category }}" required>
+        <input type="number" name="copies" placeholder="Total Copies" min="0" value="{{ book.total_copies }}" required>
+        <button type="submit">Save Changes</button>
+        <a href="{{ url_for('catalog') }}">Cancel</a>
+    </form>
+</div>
+{% endblock %}
+</body>
+</html>
